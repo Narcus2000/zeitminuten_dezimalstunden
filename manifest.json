@@ -1,6 +1,6 @@
 
 {
-  "name": "Pausen-Umrechner",
+  "name": "Zeitminuten in Dezimalstunden Umrechner",
   "short_name": "PausenApp",
   "start_url": "./index.html",
   "display": "standalone",

@@ -3,28 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zeitminuten Dezimalstunden</title>
+<title>Pausen-Umrechner</title>
 <style>
     body {
         font-family: sans-serif;
         margin: 1rem;
         background: #f6f6f6;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
     }
     .container {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         background: white;
         padding: 1rem;
         border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        max-width: 500px;
+        margin: auto;
     }
     .column {
         display: flex;
         flex-direction: column;
         margin: 0 1rem;
+        flex: 1;
+        min-width: 120px;
     }
     label {
         margin-top: 0.5rem;
@@ -33,14 +35,16 @@
         margin-bottom: 0.5rem;
         padding: 0.5rem;
         font-size: 1rem;
-        width: 80px;
+        width: 100%;
+        box-sizing: border-box;
         text-align: center;
     }
     .buttons {
+        width: 100%;
         display: flex;
-        flex-direction: column;
         justify-content: center;
-        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 1rem;
     }
     button {
         padding: 0.8rem 1.5rem;
@@ -51,6 +55,8 @@
         color: white;
         cursor: pointer;
         margin: 0.5rem;
+        flex: 1 1 40%;
+        min-width: 120px;
     }
     button:hover {
         background-color: #0056b3;
@@ -60,6 +66,7 @@
         font-size: 1.4rem;
         font-weight: bold;
         text-align: center;
+        width: 100%;
     }
 </style>
 </head>
@@ -76,12 +83,6 @@
         <input type="number" id="zeit4" min="0">
     </div>
 
-    <div class="buttons">
-        <button onclick="berechne()">Berechnen</button>
-        <button onclick="zuruecksetzen()">Zurücksetzen</button>
-        <div id="ergebnis"></div>
-    </div>
-
     <div class="column">
         <label>Zeitraum 5 (Minuten)</label>
         <input type="number" id="zeit5" min="0">
@@ -92,6 +93,13 @@
         <label>Zeitraum 8 (Minuten)</label>
         <input type="number" id="zeit8" min="0">
     </div>
+
+    <div class="buttons">
+        <button onclick="berechne()">Berechnen</button>
+        <button onclick="zuruecksetzen()">Zurücksetzen</button>
+    </div>
+
+    <div id="ergebnis"></div>
 </div>
 
 <script>

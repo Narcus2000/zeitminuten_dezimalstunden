@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pausen-Umrechner</title>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#007bff">
+  <link rel="icon" href="icons/icon-192.png">
+
+  <style>
+    body { font-family: sans-serif; margin: 2rem; text-align: center; background: #f6f6f6; }
+    input { margin: 0.5rem; padding: 0.5rem; font-size: 1.2rem; width: 6rem; text-align: center; }
+    button { margin-top: 1rem; padding: 0.7rem 1.5rem; font-size: 1.2rem; border: none; border-radius: 8px; background-color: #007bff; color: white; cursor: pointer; }
+    button:hover { background-color: #0056b3; }
+    #ergebnis { margin-top: 1.5rem; font-size: 1.6rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Pausen-Umrechner</h1>
+
+  <label>Pause 1 (Minuten):</label><br>
+  <input type="number" id="pause1" min="0"><br>
+
+  <label>Pause 2 (Minuten):</label><br>
+  <input type="number" id="pause2" min="0"><br>
+
+  <label>Pause 3 (Minuten):</label><br>
+  <input type="number" id="pause3" min="0"><br>
+
+  <button onclick="berechne()">Berechnen</button>
+
+  <div id="ergebnis"></div>
+
+  <script>
+    function berechne() {
+      const p1 = parseFloat(document.getElementById('pause1').value) || 0;
+      const p2 = parseFloat(document.getElementById('pause2').value) || 0;
+      const p3 = parseFloat(document.getElementById('pause3').value) || 0;
+      const gesamt = p1 + p2 + p3;
+      const dezimal = gesamt / 60;
+      document.getElementById('ergebnis').innerText =
+        "Gesamtzeit: " + dezimal.toFixed(2).replace('.', ',') + " Stunden";
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+</body>
+</html>

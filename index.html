@@ -68,14 +68,20 @@
         <option value="neu">neu: Stunden.Minuten</option>
     </select>
     <br><br>
-    <div id="eingaben">
-        <label>Zeit1</label><input type="text" id="zeit1">
-        <label>Zeit2</label><input type="text" id="zeit2">
-        <label>Zeit3</label><input type="text" id="zeit3">
-        <label>Zeit4</label><input type="text" id="zeit4">
-        <label>Zeit5</label><input type="text" id="zeit5">
-        <label>Zeit6</label><input type="text" id="zeit6">
+    <div id="eingaben" class="eingaben-grid">
+        <div class="col">
+            <label>Zeit1</label><input type="text" id="zeit1">
+            <label>Zeit2</label><input type="text" id="zeit2">
+            <label>Zeit3</label><input type="text" id="zeit3">
+        </div>
+    
+        <div class="col">
+            <label>Zeit4</label><input type="text" id="zeit4">
+            <label>Zeit5</label><input type="text" id="zeit5">
+            <label>Zeit6</label><input type="text" id="zeit6">
+        </div>
     </div>
+
 
     <div class="buttons">
         <button onclick="berechne()">Berechnen</button>

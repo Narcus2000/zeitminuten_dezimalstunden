@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pausen-Umrechner</title>
+<title>Zeitrechner</title>
 <style>
     body {
         font-family: sans-serif;
@@ -12,39 +12,31 @@
     }
     .container {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         background: white;
         padding: 1rem;
         border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        max-width: 500px;
+        max-width: 400px;
         margin: auto;
     }
-    .column {
-        display: flex;
-        flex-direction: column;
-        margin: 0 1rem;
-        flex: 1;
-        min-width: 120px;
-    }
-    label {
+    label, select {
         margin-top: 0.5rem;
     }
     input {
         margin-bottom: 0.5rem;
         padding: 0.5rem;
         font-size: 1rem;
-        width: 100%;
-        box-sizing: border-box;
+        width: 100px;
         text-align: center;
     }
     .buttons {
-        width: 100%;
         display: flex;
         justify-content: center;
-        flex-wrap: wrap;
         margin-top: 1rem;
+        gap: 10px;
+        flex-wrap: wrap;
     }
     button {
         padding: 0.8rem 1.5rem;
@@ -54,8 +46,6 @@
         background-color: #007bff;
         color: white;
         cursor: pointer;
-        margin: 0.5rem;
-        flex: 1 1 40%;
         min-width: 120px;
     }
     button:hover {
@@ -72,26 +62,19 @@
 </head>
 <body>
 <div class="container">
-    <div class="column">
-        <label>Zeitraum 1 (Minuten)</label>
-        <input type="number" id="zeit1" min="0">
-        <label>Zeitraum 2 (Minuten)</label>
-        <input type="number" id="zeit2" min="0">
-        <label>Zeitraum 3 (Minuten)</label>
-        <input type="number" id="zeit3" min="0">
-        <label>Zeitraum 4 (Minuten)</label>
-        <input type="number" id="zeit4" min="0">
-    </div>
+    <label for="modus">Modus auswählen:</label>
+    <select id="modus">
+        <option value="alt">alt: nur Minuten</option>
+        <option value="neu">neu: Stunden.Minuten</option>
+    </select>
 
-    <div class="column">
-        <label>Zeitraum 5 (Minuten)</label>
-        <input type="number" id="zeit5" min="0">
-        <label>Zeitraum 6 (Minuten)</label>
-        <input type="number" id="zeit6" min="0">
-        <label>Zeitraum 7 (Minuten)</label>
-        <input type="number" id="zeit7" min="0">
-        <label>Zeitraum 8 (Minuten)</label>
-        <input type="number" id="zeit8" min="0">
+    <div id="eingaben">
+        <label>Zeitraum 1</label><input type="text" id="zeit1 ">
+        <label>Zeitraum 2</label><input type="text" id="zeit2 ">
+        <label>Zeitraum 3</label><input type="text" id="zeit3 ">
+        <label>Zeitraum 4</label><input type="text" id="zeit4 ">
+        <label>Zeitraum 5</label><input type="text" id="zeit5 ">
+        <label>Zeitraum 6</label><input type="text" id="zeit6 ">
     </div>
 
     <div class="buttons">
@@ -104,17 +87,55 @@
 
 <script>
 function berechne() {
-    let gesamt = 0;
-    for (let i = 1; i <= 8; i++) {
-        gesamt += parseFloat(document.getElementById("zeit" + i).value) || 0;
+    let modus = document.getElementById("modus").value;
+    if (modus === "neu") {
+        berechneNeu();
+    } else {
+        berechneAlt();
     }
-    let dezimal = gesamt / 60;
+}
+
+function berechneNeu() {
+    let gesamtStunden = 0;
+    let gesamtMinuten = 0;
+
+    for (let i = 1; i <= 6; i++) {
+        let wert = document.getElementById("zeit" + i).value.trim();
+        if (wert) {
+            let teile = wert.split(".");
+            let stunden = parseInt(teile[0]) || 0;
+            let minuten = parseInt(teile[1]) || 0;
+            gesamtStunden += stunden;
+            gesamtMinuten += minuten;
+        }
+    }
+
+    gesamtStunden += Math.floor(gesamtMinuten / 60);
+    let restMinuten = gesamtMinuten % 60;
+    let dezimal = gesamtStunden + restMinuten / 60;
+
     document.getElementById("ergebnis").innerText =
-        "Gesamtzeit: " + dezimal.toFixed(2).replace('.', ',') + " Stunden";
+        "Gesamtzeit (neu): " + dezimal.toFixed(2).replace('.', ',') +
+        " Stunden (" + gesamtStunden + " Stunden " + restMinuten + " Minuten)";
+}
+
+function berechneAlt() {
+    let gesamtMinuten = 0;
+    for (let i = 1; i <= 6; i++) {
+        let wert = parseInt(document.getElementById("zeit" + i).value.trim()) || 0;
+        gesamtMinuten += wert;
+    }
+    let gesamtStunden = Math.floor(gesamtMinuten / 60);
+    let restMinuten = gesamtMinuten % 60;
+    let dezimal = gesamtStunden + restMinuten / 60;
+
+    document.getElementById("ergebnis").innerText =
+        "Gesamtzeit (alt): " + dezimal.toFixed(2).replace('.', ',') +
+        " Stunden (" + gesamtStunden + " Stunden " + restMinuten + " Minuten)";
 }
 
 function zuruecksetzen() {
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= 6; i++) {
         document.getElementById("zeit" + i).value = "";
     }
     document.getElementById("ergebnis").innerText = "";
